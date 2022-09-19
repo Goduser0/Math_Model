@@ -11,6 +11,6 @@ print(c)
 d = np.zeros(5)
 print(d)
 
-e = np.zeros([2, 3])
+e = np.zeros([3, 2])
 print(e[0])
 
