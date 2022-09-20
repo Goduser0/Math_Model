@@ -15,4 +15,12 @@ b1=pd.Series(a,index=['x','y','z','q'])
 print(b1)
 print(b1['y'])
 
+sites={1:'google',2:'runoob',3:'wiki'}
+s1=pd.Series(sites)
+print(s1)
 
+s2=pd.Series(sites,index=[1,2])
+print(s2)
+
+s3=pd.Series(sites,index=[1,2],name='HELLO')
+print(s3)
