@@ -1,5 +1,7 @@
 #numpy迭代数组
 
+from asyncore import readwrite
+from re import X
 import numpy as np
 
 a=np.arange(6).reshape(2,3)
@@ -23,3 +25,11 @@ print('列优先')
 for i in np.nditer(a,order='C'):
     print(i)
 
+#修改数组中元素的值
+# op_flags1缺省时为read-only，指定为read-write后可修改
+a=np.arange(0,60,5)
+a=a.reshape(3,4)
+print('原数组为：','\n',a)
+for i in np.nditer(a,op_flags=['readwrite']):
+    i[...]=2*i
+print('修改后的数组为：','\n',a)
