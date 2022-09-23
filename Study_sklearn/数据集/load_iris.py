@@ -3,5 +3,6 @@ import matplotlib.pyplot as plt
 
 iris = datasets.load_iris()
 features = iris.data
-target = iris.target
-print(features.shape,target.shape)
+tar = iris.target# target为分类标记
+tar_name=iris.target_names
+print(tar_name)
