@@ -1,5 +1,8 @@
+from turtle import color
 import matplotlib.pyplot as plt
 import matplotlib.colors as mpcolors
+from matplotlib import cm
+import numpy as np
 
 # 颜色表示
 # RGB/RGBA 元组格式: (0.1,0.2,0.5)/(0.1,0.2,0.5,0.3)
@@ -12,5 +15,21 @@ import matplotlib.colors as mpcolors
 # matplotlib.colors.TABLEAU_COLORS
 # matplotlib.colors.CSS4_COLORS
 # matplotlib.colors.XKCD_COLORS
-print(mpcolors.CSS4_COLORS)
+# print(mpcolors.CSS4_COLORS)
 
+# 内置颜色条
+# print(dir(cm))
+
+# cm_name:色条的名称 int:整数
+# 离散色条取多色
+# color=plt.cm.get_camp('cm_name')(range(start,end))
+# 离散色条取单色
+# color=plt.cm.get_camp('cm_name')(float)
+# 连续色条取多色
+# color=plt.get_cmap('cm_name')(linespace(start,end,num_part))
+# 连续色条取单色
+# color=plt.get_camp('cm_name')(float)
+
+plt.subplot(1,1,1)
+plt.bar(range(5),range(1,6),color=plt.cm.get_cmap('hsv')(0.2))
+plt.show()
