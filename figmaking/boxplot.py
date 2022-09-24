@@ -30,6 +30,7 @@ sns.boxplot(
         'marker':'o',
         'markerfacecolor':'green',
         'color':'black',
+        
     },
     
     # 上下横线属性
