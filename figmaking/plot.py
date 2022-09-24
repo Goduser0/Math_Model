@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import math
 
-x_plot=np.linspace(0,4*pi,20)
+x_plot=np.linspace(0,4*pi,200)
 y_plot=np.array([math.sin(x) for x in x_plot])
 
 plt.figure(dpi=150)
@@ -18,12 +18,12 @@ plt.plot(
         color='#3f9c5a',
 
         marker='*',
-        markersize=15,
+        markersize=12,
         markeredgewidth=1,
         markerfacecolor='r',# 填充部分颜色
         fillstyle='top',# 填充方式
         markerfacecoloralt='b',# 未填充部分颜色
-        markevery=4,
+        markevery=10,
         label='sin(x)'
         )
 plt.legend()
