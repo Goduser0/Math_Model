@@ -21,13 +21,13 @@ import numpy as np
 # print(dir(cm))
 
 # cm_name:色条的名称 int:整数
-# 离散色条取多色
+# 取离散色条多色
 # color=plt.cm.get_camp('cm_name')(range(start,end))
-# 离散色条取单色
+# 取离散色条单色
 # color=plt.cm.get_camp('cm_name')(float)
-# 连续色条取多色
+# 取连续色条多色
 # color=plt.get_cmap('cm_name')(linespace(start,end,num_part))
-# 连续色条取单色
+# 取连续色条单色
 # color=plt.get_camp('cm_name')(float)
 
 plt.subplot(1,1,1)
