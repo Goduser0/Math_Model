@@ -9,7 +9,7 @@ import math
 x_plot=np.linspace(0,4*pi,200)
 y_plot=np.array([math.sin(x) for x in x_plot])
 
-plt.figure(dpi=150)
+plt.figure(figsize=(5, 4), dpi=150)
 plt.plot(
         x_plot,
         y_plot,

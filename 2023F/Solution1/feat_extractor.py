@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 from torch.nn.utils.parametrizations import spectral_norm as SpectralNorm
 import torch.nn.functional as F
+from torchinfo import summary
 
 class StdDevNorm(nn.Module):
     def __init__(self, input_channl, stddev_feat=1, stddev_group=4):
@@ -183,8 +184,8 @@ class FeatureMatchDiscriminator(nn.Module):
         return features
 
 if __name__ == "__main__":
-    D = FeatureMatchDiscriminator()
-    X = torch.randn(8, 10, 256, 256) # (B, C, W, H)
-    print(f"Input X: {X.shape}")
+    D = FeatureMatchDiscriminator().cuda()
+    X = torch.normal(0, 1, size=(8, 10, 256, 256)).cuda() # (B, C, W, H)
     Y = D(X)
-    print(Y[-1].shape)
+    print(f"Input X: {X.shape} Output Y: {Y[-2].shape}")
+    summary(D, X.shape, device="cuda")

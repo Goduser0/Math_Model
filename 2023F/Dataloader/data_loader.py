@@ -28,11 +28,9 @@ def cubization(path_list: list, index_category: str):
     return results
         
         
-
+# 创建数据加载器
 def get_loader(mode, question="1", trans=None, batch_size=8, num_workers=4, drop_last=True):
-    df = pd.read_csv("Dataset/radar_raw_dataset.csv")
-
-
+    df = pd.read_csv("/home/zhouquan/MyDoc/Math_Model/Dataset/q1_radar_raw_dataset.csv")
     
     if question == "1":
         if mode == "train":
@@ -88,18 +86,6 @@ def get_loader(mode, question="1", trans=None, batch_size=8, num_workers=4, drop
                 Kdp_3km_10 = cubization(Kdp_3km_10_path_list, index_category="KDP")
                 Kdp_7km_10 = cubization(Kdp_7km_10_path_list, index_category="KDP")
                         
-                # Y_1km_10 = torch.tensor(Y_1km_10)
-                # Y_3km_10 = torch.tensor(Y_3km_10)
-                # Y_7km_10 = torch.tensor(Y_7km_10)
-                # Zh_1km_10 = torch.tensor(Zh_1km_10)
-                # Zh_3km_10 = torch.tensor(Zh_3km_10)
-                # Zh_7km_10 = torch.tensor(Zh_7km_10)
-                # Zdr_1km_10 = torch.tensor(Zdr_1km_10)
-                # Zdr_3km_10 = torch.tensor(Zdr_3km_10)
-                # Zdr_1km_10 = torch.tensor(Zdr_1km_10)
-                # Zdr_3km_10 = torch.tensor(Zdr_3km_10)
-                # Zdr_7km_10 = torch.tensor(Zdr_7km_10)
-                
                 results = {
                     # All Shape is 10 * 256 * 256
                     "Y_1km_10": Y_1km_10,

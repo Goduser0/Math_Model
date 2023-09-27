@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 import os
 
+#读取降水量数据，保存为csv结构化数据
 def read_rainfall_path():
     rainfall_root_path = "Dataset/NJU_CPOL_kdpRain"
     rain_id_series = []
-    frame_id_series =[]
+    frame_id_series = []
     rainfall_path_series = []
     rain_id_list = os.listdir(rainfall_root_path)
     for rain_id in rain_id_list:
@@ -21,6 +22,7 @@ def read_rainfall_path():
     df_rainfall = df_rainfall.sort_values(by=['rain_id', 'frame_id'], ascending=[True, True], ignore_index=True)
     df_rainfall.to_csv("Dataset/rainfall_path.csv") 
 
+#读取雷达信号数据，保存为csv结构化数据
 def read_radar_path():
     radar_root_path = "Dataset/NJU_CPOL_update2308"
     index_category_list = os.listdir(radar_root_path)
@@ -50,6 +52,7 @@ def read_radar_path():
     df_radar = df_radar.sort_values(by=["rain_id", "index_category", "height", "frame_id"], ascending=[True, True, True, True], ignore_index=True)
     df_radar.to_csv("Dataset/radar_path.csv") 
 
+# 划分数据集
 def partition_dataset(time_step=10):
     df = pd.read_csv("Dataset/radar_path.csv")
     rain_id_unique_list = df["rain_id"].unique().tolist()
@@ -87,8 +90,8 @@ def partition_dataset(time_step=10):
     df_radar = pd.DataFrame({"rain_id": rain_id_series, "height": height_series, "index_category": index_category_series, "input": input_series, "output": output_series})
     df_radar.to_csv("Dataset/radar_raw_dataset.csv")
 
+# 将数据集划分训练集和测试集
 def dataset_divid():
-    df = pd.read_csv("Dataset/radar_raw_dataset.csv")
     df_3km_kill_norain = pd.read_csv("Dataset/radar_3km_kill_norain.csv")
     df_3km_kill_norain = df_3km_kill_norain.reindex()
     sample_size = int(len(df_3km_kill_norain) * 0.9)

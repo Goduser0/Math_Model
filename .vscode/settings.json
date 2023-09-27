@@ -2,6 +2,7 @@
     "python.analysis.typeCheckingMode": "off",
     "python.analysis.extraPaths": [
         "./2023F/Utils",
-        "./2023F/Dataloader"
+        "./2023F/Dataloader",
+        "./2023F/Solution2"
     ]
 }

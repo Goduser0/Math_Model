@@ -1,6 +1,7 @@
 import os
 import tqdm
 import numpy as np
+import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -53,10 +54,14 @@ def train():
     #optim_FC_7km_Zh = torch.optim.Adam(FC_7km_Zh.parameters(), lr=1e-4, betas=[0.0, 0.9])
     
     
-    num_epochs = 50
+    num_epochs = 20
+    loss_list = []
+    num_batchs = 500
     for epoch in tqdm.tqdm(range(1, num_epochs + 1)):
+        epoch_loss = 0.0
         for i, contents in enumerate(dataloader):
-                               
+            if i > num_batchs:
+                break                   
             feats_1km_Zh = FE_1km_Zh(contents["Zh_1km_10"].cuda())
             #feats_3km_Zh = FE_3km_Zh(contents["Zh_3km_10"].cuda())
             #feats_7km_Zh = FE_7km_Zh(contents["Zh_7km_10"].cuda())
@@ -84,7 +89,6 @@ def train():
             #real_Zh_7km = contents["Y_7km_10"].cuda()
             pred_Zh_1km = FC_1km_Zh(feats_total)
             
-            print(real_Zh_1km.shape)
             plt.subplot(1, 2, 1)
             norm = matplotlib.colors.Normalize(vmin=0.0,vmax=1.0)
             plt.imshow(real_Zh_1km[0][4].cpu().detach().numpy(), cmap='coolwarm', interpolation='nearest', norm=norm)
@@ -100,6 +104,7 @@ def train():
             
             # loss
             loss_mse = F.mse_loss(real_Zh_1km, pred_Zh_1km) * 100.0 #+ F.mse_loss(real_Zh_3km, real_Zh_3km) + F.mse_loss(real_Zh_7km, real_Zh_7km)
+            epoch_loss += loss_mse
             optim_FE_1km_Zh.zero_grad()
             #optim_FE_3km_Zh.zero_grad()
             #optim_FE_7km_Zh.zero_grad()
@@ -128,13 +133,16 @@ def train():
             #optim_FC_7km_Zh.step()
 
             print(
-                f"[Epoch {epoch}/{num_epochs}] [{i}/{len(dataloader)}] [{loss_mse.detach().item()}]"
+                f"[Epoch {epoch}/{num_epochs}] [{i}/{len(dataloader)}] [{loss_mse.item()}]"
             )
-    torch.save(FE_1km_Zh, "2023F/Solution1/models/FE_1km_Zh.pth")
-    torch.save(FE_1km_Kdp, "2023F/Solution1/models/FE_1km_Kdp.pth")
-    torch.save(FE_1km_Zdr, "2023F/Solution1/models/FE_1km_Zdr.pth")
-    torch.save(FC_1km_Zh, "2023F/Solution1/models/FC_1km_Zh.pth")
-    
+        loss_list.append(epoch_loss.item() / num_batchs)
+        if epoch % 5 == 0:
+            torch.save({"model_state_dict": FE_1km_Zh.state_dict()}, f"2023F/Solution1/models/FE_1km_Zh_{epoch}.pth")
+            torch.save({"model_state_dict": FE_1km_Kdp.state_dict()}, f"2023F/Solution1/models/FE_1km_Kdp_{epoch}.pth")
+            torch.save({"model_state_dict": FE_1km_Zdr.state_dict()}, f"2023F/Solution1/models/FE_1km_Zdr_{epoch}.pth")
+            torch.save({"model_state_dict": FC_1km_Zh.state_dict()}, f"2023F/Solution1/models/FC_1km_Zh_{epoch}.pth")
+            df = pd.DataFrame({"MSE loss": loss_list})
+            df.to_csv("Train_MSE_loss")
                  
     
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ import torchvision.transforms as T
 import torch
 import torch.nn as nn
 from torch.nn.utils.parametrizations import spectral_norm as SpectralNorm
-
+from torchinfo import summary
 
 class PixelNorm(nn.Module):
     """像素归一化"""
@@ -104,9 +104,9 @@ class SelfAttention(nn.Module):
         
         return output, attention
 
-class FeatureMatchGenerator(nn.Module):
+class FMG(nn.Module):
     def __init__(self, img_size=256, z_dim=512, conv_dim=64):
-        super(FeatureMatchGenerator, self).__init__()
+        super(FMG, self).__init__()
         
         self.img_size = img_size
         
@@ -185,7 +185,10 @@ class FeatureMatchGenerator(nn.Module):
         return output
     
 if __name__ == "__main__":
-    z = torch.randn(8, 512, 3, 3) # batchsize z_dim
-    FMG = FeatureMatchGenerator()
+    
+    z = torch.randn(8, 512, 3, 3).cuda() # batchsize z_dim
+    FMG = FMG().cuda()
+    FMG = torch.nn.DataParallel(FMG)
     output = FMG(z)
-    print(output.shape)
+    print(f"Input X: {z.shape} Output Y: {output.shape}")
+    summary(FMG, z.shape, device="cuda")
